@@ -15,15 +15,16 @@ export default function VideosPage() {
   return (
     <>
       <section className="page-hero">
+        <div className="aurora" aria-hidden="true"><span className="a1" /><span className="a2" /><span className="a3" /></div>
         <div className="wrap center-narrow reveal">
           <span className="eyebrow" style={{ justifyContent: "center" }}>Video lessons</span>
-          <h1>Learn English <em>free</em>, one video at a time.</h1>
+          <h1>Learn English <em className="grad-text">free</em>, one video at a time.</h1>
           <p>
             Short, practical lessons on speaking, grammar and IELTS. Watch here or subscribe on YouTube — and grab the matching notes on the{" "}
             <Link href="/notes" style={{ color: "var(--green)", fontWeight: 600 }}>Free Notes</Link> page.
           </p>
           <div className="channel-cta" style={{ marginTop: 26 }}>
-            <a href={site.youtube} className="btn btn-green btn-lg" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
+            <a href={site.youtube} className="btn btn-green btn-lg btn-shimmer" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
             <Link href="/notes" className="btn btn-ghost btn-lg">Get the notes</Link>
           </div>
         </div>
@@ -44,7 +45,7 @@ export default function VideosPage() {
             ))}
           </div>
           <div className="channel-cta">
-            <a href={site.youtube} className="btn btn-green btn-lg" target="_blank" rel="noopener noreferrer">See the full channel</a>
+            <a href={site.youtube} className="btn btn-green btn-lg btn-shimmer" target="_blank" rel="noopener noreferrer">See the full channel</a>
           </div>
         </div>
       </section>

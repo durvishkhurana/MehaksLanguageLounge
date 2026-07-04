@@ -15,8 +15,14 @@ type Props = {
 export default function YouTubeCard({ id, tag, title, desc }: Props) {
   const [playing, setPlaying] = useState(false);
 
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+  }
+
   return (
-    <div className="video-card reveal">
+    <div className="video-card spotlight reveal" onMouseMove={onMove}>
       <div className="yt-facade" onClick={() => setPlaying(true)}>
         {playing ? (
           <iframe

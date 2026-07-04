@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import AdSlot from "@/components/AdSlot";
+import SpotlightCard from "@/components/SpotlightCard";
 import { site } from "@/lib/site";
 import { notes } from "@/lib/content";
 
@@ -14,9 +15,10 @@ export default function NotesPage() {
   return (
     <>
       <section className="page-hero">
+        <div className="aurora" aria-hidden="true"><span className="a1" /><span className="a2" /><span className="a3" /></div>
         <div className="wrap center-narrow reveal">
           <span className="eyebrow" style={{ justifyContent: "center" }}>Free notes</span>
-          <h1>The notes from our <em>videos</em> — free to download.</h1>
+          <h1>The notes from our <em className="grad-text">videos</em> — free to download.</h1>
           <p>Every worksheet, phrase list and cheat-sheet we mention on YouTube lives here. No sign-up, no email required. Just download and learn.</p>
         </div>
       </section>
@@ -33,14 +35,14 @@ export default function NotesPage() {
 
           <div className="notes-grid">
             {notes.map((n, i) => (
-              <div className="note-card reveal" key={i}>
+              <SpotlightCard className="note-card reveal" key={i}>
                 <div className="note-icon" aria-hidden="true">{n.icon}</div>
                 <div className="vtag">{n.tag}</div>
                 <h3>{n.title}</h3>
                 <p>{n.desc}</p>
                 <div className="note-meta">{n.meta}</div>
                 <a href={n.href} className="btn btn-primary" target="_blank" rel="noopener noreferrer">Download PDF</a>
-              </div>
+              </SpotlightCard>
             ))}
           </div>
 

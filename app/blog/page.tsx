@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import AdSlot from "@/components/AdSlot";
+import SpotlightCard from "@/components/SpotlightCard";
 import { getAllPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/format";
 import { site } from "@/lib/site";
@@ -20,9 +21,10 @@ export default async function BlogIndex() {
   return (
     <>
       <section className="page-hero">
+        <div className="aurora" aria-hidden="true"><span className="a1" /><span className="a2" /><span className="a3" /></div>
         <div className="wrap center-narrow reveal">
           <span className="eyebrow" style={{ justifyContent: "center" }}>The blog</span>
-          <h1>Free English tips, <em>posted often</em>.</h1>
+          <h1>Free English tips, <em className="grad-text">posted often</em>.</h1>
           <p>Short, useful reads to keep improving between classes — speaking, grammar, exams and more.</p>
         </div>
       </section>
@@ -36,7 +38,7 @@ export default async function BlogIndex() {
           ) : (
             <div className="blog-grid">
               {posts.map((p) => (
-                <article className="post reveal" key={p.slug}>
+                <SpotlightCard as="article" className="post reveal" key={p.slug}>
                   <Link href={`/blog/${p.slug}`} className="thumb">
                     {p.cover && <Image src={p.cover} alt="" fill sizes="(max-width:900px) 100vw, 380px" />}
                     <span>{p.tags[0] || "Blog"}</span>
@@ -47,7 +49,7 @@ export default async function BlogIndex() {
                     <p className="excerpt">{p.excerpt}</p>
                     <Link href={`/blog/${p.slug}`} className="more">Read post →</Link>
                   </div>
-                </article>
+                </SpotlightCard>
               ))}
             </div>
           )}

@@ -5,12 +5,44 @@ import BookingForm from "@/components/BookingForm";
 import FeedbackForm from "@/components/FeedbackForm";
 import YouTubeCard from "@/components/YouTubeCard";
 import Faq from "@/components/Faq";
+import VaporIntro from "@/components/VaporIntro";
+import Marquee from "@/components/Marquee";
+import SpotlightCard from "@/components/SpotlightCard";
+import CountUp from "@/components/CountUp";
 import { site } from "@/lib/site";
 import { courses, approach, reviews, faqs, videos } from "@/lib/content";
 import { getAllPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/format";
 
 export const revalidate = 60; // ISR: refresh blog preview without redeploy
+
+const wins = [
+  "IELTS Band 7.5 achieved",
+  "62% → 88% in one year",
+  "500+ students taught",
+  "Speaks up in meetings now",
+  "6 students max per batch",
+  "PR visa English cleared",
+  "Fluent in 3 months",
+  "Grade 9, top of class",
+];
+
+type Review = { initials: string; name: string; role: string; quote: string };
+function ReviewCard({ r }: { r: Review }) {
+  return (
+    <div className="review">
+      <div className="stars">★★★★★</div>
+      <p className="quote">&ldquo;{r.quote}&rdquo;</p>
+      <div className="who">
+        <div className="avatar">{r.initials}</div>
+        <div>
+          <div className="name">{r.name}</div>
+          <div className="role">{r.role}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default async function HomePage() {
   const posts = (await getAllPosts()).slice(0, 3);
@@ -35,34 +67,49 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
 
+      {/* VAPORIZE INTRO — fear of speaking dissolves into the brand */}
+      <VaporIntro />
+
       {/* HERO */}
       <section className="hero">
+        <div className="aurora" aria-hidden="true">
+          <span className="a1" /><span className="a2" /><span className="a3" />
+        </div>
         <div className="wrap hero-grid">
           <div className="reveal">
             <span className="eyebrow">Spoken English · School English · IELTS</span>
-            <h1>Speak English with the <em>confidence</em> it takes to be heard.</h1>
+            <h1>Speak English with the <em className="grad-text">confidence</em> it takes to be heard.</h1>
             <p className="lead">Small batches, personal attention, and a teacher who actually listens. Learn to speak clearly — not just pass a test.</p>
             <div className="hero-actions">
-              <Link href="/#book" className="btn btn-primary btn-lg">Book a free demo class</Link>
+              <Link href="/#book" className="btn btn-primary btn-lg btn-shimmer">Book a free demo class</Link>
               <Link href="/#courses" className="btn btn-ghost btn-lg">See the classes</Link>
             </div>
             <p className="hero-note">Free first class · No card needed · Online &amp; in-person in {site.city}</p>
           </div>
 
-          <div className="entry reveal" aria-hidden="true">
+          <div className="entry reveal">
             <div className="headword">flu·en·cy</div>
             <div className="phon">/ˈfluː.ən.si/</div>
             <div className="pos">noun</div>
             <div className="def">the quiet ease of saying exactly what you mean, in a room full of people — and being understood.</div>
             <hr />
             <div className="stats">
-              <div><div className="n">500+</div><div className="l">students taught</div></div>
-              <div><div className="n">6</div><div className="l">max per batch</div></div>
-              <div><div className="n">4.9★</div><div className="l">avg. rating</div></div>
+              <div><div className="n"><CountUp end={500} suffix="+" /></div><div className="l">students taught</div></div>
+              <div><div className="n"><CountUp end={6} /></div><div className="l">max per batch</div></div>
+              <div><div className="n"><CountUp end={4.9} decimals={1} suffix="★" /></div><div className="l">avg. rating</div></div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* PROOF MARQUEE */}
+      <div className="wins-band">
+        <Marquee duration={40}>
+          {wins.map((w, i) => (
+            <span className="wins-pill" key={i}><span className="star">★</span> {w}</span>
+          ))}
+        </Marquee>
+      </div>
 
       {/* AD */}
       <div className="ad-band"><div className="wrap"><AdSlot variant="leaderboard" /></div></div>
@@ -77,12 +124,12 @@ export default async function HomePage() {
           </div>
           <div className="cards">
             {courses.map((c) => (
-              <div className="course reveal" key={c.title}>
+              <SpotlightCard className="course reveal" key={c.title}>
                 <div className="tag">{c.tag}</div>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
                 <div className="meta">{c.meta}</div>
-              </div>
+              </SpotlightCard>
             ))}
           </div>
         </div>
@@ -130,31 +177,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* REVIEWS + SIDEBAR AD */}
+      {/* REVIEWS — testimonial marquee */}
       <section className="band" id="reviews">
         <div className="wrap">
-          <div className="sec-head reveal">
+          <div className="sec-head center reveal">
             <span className="eyebrow">Student reviews</span>
             <h2>Read it from the people who sat in the room.</h2>
             <p>Real words from real students. Replace these with your own once classes are running.</p>
           </div>
-          <div className="with-sidebar">
-            <div className="review-grid">
-              {reviews.map((r) => (
-                <div className="review reveal" key={r.name}>
-                  <div className="stars">★★★★★</div>
-                  <p className="quote">&ldquo;{r.quote}&rdquo;</p>
-                  <div className="who">
-                    <div className="avatar">{r.initials}</div>
-                    <div><div className="name">{r.name}</div><div className="role">{r.role}</div></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <aside className="sidebar-ad reveal"><AdSlot variant="sidebar" /></aside>
-          </div>
+        </div>
+        <div className="tmarquee">
+          <Marquee duration={46}>
+            {reviews.map((r) => <ReviewCard key={r.name} r={r} />)}
+          </Marquee>
+          <Marquee reverse duration={54}>
+            {[...reviews].reverse().map((r) => <ReviewCard key={r.name} r={r} />)}
+          </Marquee>
         </div>
       </section>
+
+      {/* AD */}
+      <div className="ad-band"><div className="wrap"><AdSlot variant="content" /></div></div>
 
       {/* BLOG PREVIEW */}
       <section className="band band-warm" id="blog">
@@ -166,7 +209,7 @@ export default async function HomePage() {
           </div>
           <div className="blog-grid">
             {posts.map((p) => (
-              <article className="post reveal" key={p.slug}>
+              <SpotlightCard as="article" className="post reveal" key={p.slug}>
                 <Link href={`/blog/${p.slug}`} className="thumb">
                   {p.cover && <Image src={p.cover} alt="" fill sizes="(max-width:900px) 100vw, 380px" />}
                   <span>{p.tags[0] || "Blog"}</span>
@@ -177,7 +220,7 @@ export default async function HomePage() {
                   <p className="excerpt">{p.excerpt}</p>
                   <Link href={`/blog/${p.slug}`} className="more">Read post →</Link>
                 </div>
-              </article>
+              </SpotlightCard>
             ))}
           </div>
           <div style={{ marginTop: 32 }}><Link href="/blog" className="btn btn-ghost">Read all posts</Link></div>
