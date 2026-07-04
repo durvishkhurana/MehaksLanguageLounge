@@ -1,0 +1,61 @@
+# ============================================================
+# Only source code + config get pushed. Build output, secrets,
+# dependencies and local tooling stay out of the repo.
+# Vercel installs deps and builds from source on its own.
+# ============================================================
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next.js build output
+/.next/
+/out/
+next-env.d.ts
+
+# production build
+/build
+/dist
+
+# testing / coverage
+/coverage
+
+# secrets & environment (the .example template IS committed)
+.env
+.env.local
+.env*.local
+.env.development
+.env.production
+!.env.local.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# editors & local tooling
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.pem
