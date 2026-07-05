@@ -3,7 +3,9 @@ import Link from "next/link";
 import AdSlot from "@/components/AdSlot";
 import YouTubeCard from "@/components/YouTubeCard";
 import { site } from "@/lib/site";
-import { videos } from "@/lib/content";
+import { getLatestVideos } from "@/lib/youtube";
+
+export const revalidate = 3600; // re-check the channel for new videos hourly
 
 export const metadata: Metadata = {
   title: "Video Lessons — Free English lessons on YouTube",
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/videos" },
 };
 
-export default function VideosPage() {
+export default async function VideosPage() {
+  const videos = await getLatestVideos(9);
   return (
     <>
       <section className="page-hero">
@@ -37,7 +40,7 @@ export default function VideosPage() {
           <div className="sec-head reveal">
             <span className="eyebrow">Latest lessons</span>
             <h2>Pick a topic and press play.</h2>
-            <p>Edit the list in <code>lib/content.ts</code> — each video just needs its YouTube ID.</p>
+            <p>Fresh from our channel — this list updates automatically when we upload.</p>
           </div>
           <div className="video-grid">
             {videos.map((v, i) => (

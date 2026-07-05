@@ -1,4 +1,4 @@
-# The English Room — website
+# Mehak Language Lounge — website
 
 A fast, secure marketing + blog site for a small English-tuition business, built with **Next.js (App Router) + TypeScript + Tailwind CSS** and deployed on **Vercel**.
 

@@ -12,19 +12,19 @@ export const courses = [
     tag: "Grades 6–12",
     title: "School English",
     body: "Grammar, writing, comprehension and exam technique for CBSE / ICSE / State boards. Marks go up because understanding goes up.",
-    meta: "Monthly · Flexible batches",
+    meta: "Monthly · Flexible timings",
   },
   {
     tag: "Exam prep",
     title: "IELTS & Interview English",
     body: "Band-focused IELTS coaching and interview prep for jobs and visas. Mock tests, feedback, and a clear plan to your target score.",
-    meta: "6–8 weeks · Small groups",
+    meta: "6–8 weeks · One-on-one",
   },
 ];
 
 export const approach = [
   { num: "01", title: "You speak from day one", body: "No lectures. You're talking within the first ten minutes of your very first class." },
-  { num: "02", title: "Six students, not sixty", body: "Tiny batches mean real feedback on your accent, grammar and confidence — every session." },
+  { num: "02", title: "One-on-one, not one of sixty", body: "Every class is a private mentorship — the lesson bends around you, your pace and your goals." },
   { num: "03", title: "Corrected, kindly", body: "Mistakes are the point. You'll be corrected without ever being embarrassed." },
   { num: "04", title: "Progress you can see", body: "Regular check-ins and recordings so you can hear how far you've come." },
 ];
@@ -37,9 +37,9 @@ export const reviews = [
 ];
 
 export const faqs = [
-  { q: "Do you teach online, in-person, or both?", a: "Both. Online classes run over video call, and in-person classes are held in your city. You can pick whichever suits you when you book." },
+  { q: "Do you teach online, in-person, or both?", a: "Both. Online classes run over video call, and in-person classes happen at our centre in Amritsar, Punjab — you come to the centre for your class (we don't offer home visits)." },
   { q: "Is the demo class really free?", a: "Yes — one full class, completely free, no card needed. It's a real class so you can judge properly before joining." },
-  { q: "How big are the batches?", a: "Six students maximum. Small batches are the whole point — everyone gets to speak and gets real feedback." },
+  { q: "Are classes really one-on-one?", a: "Yes. Every class is a private, one-on-one mentorship — the full session is about you, your level and your goals. No hiding in a batch." },
   { q: "I'm an adult and a bit embarrassed to start. Is that okay?", a: "More than okay — a large share of our students are working adults. There's no judgement here, ever." },
   { q: "What are the fees?", a: "Fees depend on the class and format. Book a free demo and we'll walk you through the options — no obligation." },
 ];

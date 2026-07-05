@@ -4,6 +4,7 @@ import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ClientChrome from "@/components/ClientChrome";
+import AssistantWidget from "@/components/AssistantWidget";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main>{children}</main>
         <Footer />
+        <AssistantWidget />
 
         {/* Google AdSense loader — only added when you set NEXT_PUBLIC_ADSENSE_CLIENT */}
         {site.adsenseClient && (

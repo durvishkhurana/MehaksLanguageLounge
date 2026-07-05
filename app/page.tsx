@@ -6,46 +6,32 @@ import FeedbackForm from "@/components/FeedbackForm";
 import YouTubeCard from "@/components/YouTubeCard";
 import Faq from "@/components/Faq";
 import VaporIntro from "@/components/VaporIntro";
+import FollowShowcase from "@/components/FollowShowcase";
 import Marquee from "@/components/Marquee";
 import SpotlightCard from "@/components/SpotlightCard";
 import CountUp from "@/components/CountUp";
 import { site } from "@/lib/site";
-import { courses, approach, reviews, faqs, videos } from "@/lib/content";
+import { courses, approach, faqs } from "@/lib/content";
 import { getAllPosts } from "@/lib/posts";
+import { getLatestVideos } from "@/lib/youtube";
 import { formatDate } from "@/lib/format";
 
 export const revalidate = 60; // ISR: refresh blog preview without redeploy
 
 const wins = [
-  "IELTS Band 7.5 achieved",
-  "62% → 88% in one year",
-  "500+ students taught",
-  "Speaks up in meetings now",
-  "6 students max per batch",
-  "PR visa English cleared",
-  "Fluent in 3 months",
-  "Grade 9, top of class",
+  "One-on-one mentorship",
+  "Spoken English · IELTS",
+  "School English · Grades 6–12",
+  "Online & at our Amritsar centre",
+  "Free first demo class",
+  "Interview & exam prep",
+  "Free notes with every video",
+  "New videos every week",
 ];
 
-type Review = { initials: string; name: string; role: string; quote: string };
-function ReviewCard({ r }: { r: Review }) {
-  return (
-    <div className="review">
-      <div className="stars">★★★★★</div>
-      <p className="quote">&ldquo;{r.quote}&rdquo;</p>
-      <div className="who">
-        <div className="avatar">{r.initials}</div>
-        <div>
-          <div className="name">{r.name}</div>
-          <div className="role">{r.role}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default async function HomePage() {
-  const posts = (await getAllPosts()).slice(0, 3);
+  const [allPosts, latestVideos] = await Promise.all([getAllPosts(), getLatestVideos(6)]);
+  const posts = allPosts.slice(0, 3);
 
   const orgJsonLd = {
     "@context": "https://schema.org",
@@ -60,7 +46,6 @@ export default async function HomePage() {
       addressRegion: site.state,
       addressCountry: "IN",
     },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "60" },
   };
 
   return (
@@ -79,12 +64,12 @@ export default async function HomePage() {
           <div className="reveal">
             <span className="eyebrow">Spoken English · School English · IELTS</span>
             <h1>Speak English with the <em className="grad-text">confidence</em> it takes to be heard.</h1>
-            <p className="lead">Small batches, personal attention, and a teacher who actually listens. Learn to speak clearly — not just pass a test.</p>
+            <p className="lead">One-on-one mentorship with a teacher who actually listens. Learn to speak clearly — not just pass a test.</p>
             <div className="hero-actions">
               <Link href="/#book" className="btn btn-primary btn-lg btn-shimmer">Book a free demo class</Link>
               <Link href="/#courses" className="btn btn-ghost btn-lg">See the classes</Link>
             </div>
-            <p className="hero-note">Free first class · No card needed · Online &amp; in-person in {site.city}</p>
+            <p className="hero-note">Free first class · No card needed · Online, or at our {site.city} centre</p>
           </div>
 
           <div className="entry reveal">
@@ -95,8 +80,8 @@ export default async function HomePage() {
             <hr />
             <div className="stats">
               <div><div className="n"><CountUp end={500} suffix="+" /></div><div className="l">students taught</div></div>
-              <div><div className="n"><CountUp end={6} /></div><div className="l">max per batch</div></div>
-              <div><div className="n"><CountUp end={4.9} decimals={1} suffix="★" /></div><div className="l">avg. rating</div></div>
+              <div><div className="n">1-on-1</div><div className="l">private mentorship</div></div>
+              <div><div className="n">Free</div><div className="l">first demo class</div></div>
             </div>
           </div>
         </div>
@@ -120,7 +105,7 @@ export default async function HomePage() {
           <div className="sec-head reveal">
             <span className="eyebrow">The classes</span>
             <h2>Pick the class that fits where you are now.</h2>
-            <p>Every class is small on purpose — so no one hides in the back, and everyone gets to speak.</p>
+            <p>Every class is one-on-one — the full session is about you, your pace and your goals.</p>
           </div>
           <div className="cards">
             {courses.map((c) => (
@@ -166,7 +151,7 @@ export default async function HomePage() {
             <p>Short lessons on speaking, grammar and IELTS — plus every downloadable note we share.</p>
           </div>
           <div className="video-grid">
-            {videos.slice(0, 3).map((v, i) => (
+            {latestVideos.slice(0, 3).map((v, i) => (
               <YouTubeCard key={i} id={v.id} tag={v.tag} title={v.title} desc={v.desc} />
             ))}
           </div>
@@ -177,24 +162,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* REVIEWS — testimonial marquee */}
-      <section className="band" id="reviews">
-        <div className="wrap">
-          <div className="sec-head center reveal">
-            <span className="eyebrow">Student reviews</span>
-            <h2>Read it from the people who sat in the room.</h2>
-            <p>Real words from real students. Replace these with your own once classes are running.</p>
-          </div>
-        </div>
-        <div className="tmarquee">
-          <Marquee duration={46}>
-            {reviews.map((r) => <ReviewCard key={r.name} r={r} />)}
-          </Marquee>
-          <Marquee reverse duration={54}>
-            {[...reviews].reverse().map((r) => <ReviewCard key={r.name} r={r} />)}
-          </Marquee>
-        </div>
-      </section>
+      {/* FOLLOW — YouTube + Instagram scroll showcase */}
+      <FollowShowcase videos={latestVideos} />
 
       {/* AD */}
       <div className="ad-band"><div className="wrap"><AdSlot variant="content" /></div></div>
@@ -235,8 +204,8 @@ export default async function HomePage() {
             <h2>Try one class. Then decide.</h2>
             <p>No payment, no pressure. Come to one full class, meet the teacher, and see if it&apos;s the right fit for you.</p>
             <ul className="checklist">
-              <li>A real class, not a sales call</li>
-              <li>Online or in-person in {site.city}</li>
+              <li>A real one-on-one class, not a sales call</li>
+              <li>Online, or at our centre in {site.city}, {site.state}</li>
               <li>We reply within a few hours</li>
             </ul>
           </div>

@@ -11,7 +11,6 @@ const links = [
   { href: "/videos", label: "Videos" },
   { href: "/notes", label: "Free Notes" },
   { href: "/blog", label: "Blog" },
-  { href: "/#reviews", label: "Reviews" },
   { href: "/#faq", label: "FAQ" },
 ];
 

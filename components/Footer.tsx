@@ -13,7 +13,7 @@ export default function Footer() {
               <span className="dot">.</span>
             </div>
             <p className="tag">
-              Small-batch English classes taught with patience, honesty, and real attention. Online &amp; in {site.city}.
+              One-on-one English mentorship taught with patience, honesty, and real attention. Online &amp; at our {site.city} centre.
             </p>
           </div>
           <div>
@@ -30,7 +30,6 @@ export default function Footer() {
               <li><Link href="/videos">Videos</Link></li>
               <li><Link href="/notes">Free Notes</Link></li>
               <li><Link href="/blog">Blog</Link></li>
-              <li><Link href="/#reviews">Reviews</Link></li>
               <li><Link href="/#feedback">Report a bug</Link></li>
             </ul>
           </div>
@@ -38,6 +37,9 @@ export default function Footer() {
             <h4>Contact</h4>
             <ul>
               <li><a href={site.youtube} target="_blank" rel="noopener noreferrer">YouTube</a></li>
+              <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
+              {site.linkedin && <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>}
+              {site.facebook && <li><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>}
               <li><Link href="/#book">WhatsApp</Link></li>
               <li><a href={`mailto:${site.email}`}>Email</a></li>
             </ul>
