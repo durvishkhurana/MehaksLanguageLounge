@@ -2,10 +2,39 @@
 // Runs on the server at build/revalidate time (ISR) — no API key, no database.
 // Falls back to the sample list in lib/content.ts if YouTube is unreachable
 // or the channel has no public videos yet.
-import { videos as sampleVideos } from "@/lib/content";
+import { videos as sampleVideos, pinnedVideos, videoPriority } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export type LatestVideo = { id: string; title: string; tag: string; desc?: string };
+
+// Order the feed the way the owner wants: pinned videos first (with optional
+// title overrides), then videos matching the priority keywords, then the rest
+// (newest first — Array.sort is stable, so recency is kept within groups).
+function curate(list: LatestVideo[], limit: number): LatestVideo[] {
+  const byId = new Map(list.map((v) => [v.id, v]));
+  const used = new Set<string>();
+  const out: LatestVideo[] = [];
+
+  for (const p of pinnedVideos) {
+    const v = byId.get(p.id);
+    if (v) {
+      out.push({ ...v, title: p.title || v.title });
+      used.add(p.id);
+    } else if (p.title) {
+      // Pinned video is older than the feed window — still show it.
+      out.push({ id: p.id, title: p.title, tag: "On YouTube" });
+      used.add(p.id);
+    }
+  }
+
+  const score = (title: string) => {
+    const i = videoPriority.findIndex((k) => title.toLowerCase().includes(k.toLowerCase()));
+    return i === -1 ? videoPriority.length : i;
+  };
+  const rest = list.filter((v) => !used.has(v.id)).sort((a, b) => score(a.title) - score(b.title));
+
+  return [...out, ...rest].slice(0, limit);
+}
 
 function decodeXml(s: string): string {
   return s
@@ -49,13 +78,13 @@ export async function getLatestVideos(limit = 6): Promise<LatestVideo[]> {
     if (!res.ok) return sampleVideos.slice(0, limit);
 
     const xml = await res.text();
-    const out: LatestVideo[] = [];
+    const all: LatestVideo[] = [];
     const re = /<yt:videoId>([\w-]+)<\/yt:videoId>[\s\S]*?<title>([\s\S]*?)<\/title>/g;
     let m: RegExpExecArray | null;
-    while ((m = re.exec(xml)) !== null && out.length < limit) {
-      out.push({ id: m[1], title: decodeXml(m[2].trim()), tag: "On YouTube" });
+    while ((m = re.exec(xml)) !== null) {
+      all.push({ id: m[1], title: decodeXml(m[2].trim()), tag: "On YouTube" });
     }
-    return out.length ? out : sampleVideos.slice(0, limit);
+    return all.length ? curate(all, limit) : sampleVideos.slice(0, limit);
   } catch {
     return sampleVideos.slice(0, limit);
   }

@@ -45,8 +45,11 @@ function YouTubeMock({ videos }: { videos: ShowcaseVideo[] }) {
   );
 }
 
-function InstagramMock() {
+function InstagramMock({ images }: { images: string[] }) {
+  // Real post screenshots from /public/instagram; picsum placeholders fill
+  // any remaining cells until 9 real ones are provided.
   const seeds = ["mll1", "mll2", "mll3", "mll4", "mll5", "mll6", "mll7", "mll8", "mll9"];
+  const cells = [...images, ...seeds.map((s) => `https://picsum.photos/seed/${s}/400/400`)].slice(0, 9);
   return (
     <div className="h-full w-full bg-white flex flex-col">
       <div className="px-4 md:px-6 pt-5 flex items-center gap-4 md:gap-6">
@@ -64,10 +67,10 @@ function InstagramMock() {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-1 md:gap-1.5 p-3 md:p-4 flex-1">
-        {seeds.map((s) => (
-          <a key={s} href={site.instagram} target="_blank" rel="noopener noreferrer" className="relative aspect-square overflow-hidden group">
+        {cells.map((src) => (
+          <a key={src} href={site.instagram} target="_blank" rel="noopener noreferrer" className="relative aspect-square overflow-hidden group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`https://picsum.photos/seed/${s}/400/400`} alt="" className="w-full h-full object-cover" loading="lazy" />
+            <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors" />
           </a>
         ))}
@@ -76,7 +79,7 @@ function InstagramMock() {
   );
 }
 
-export default function FollowShowcase({ videos }: { videos: ShowcaseVideo[] }) {
+export default function FollowShowcase({ videos, igImages = [] }: { videos: ShowcaseVideo[]; igImages?: string[] }) {
   return (
     <section className="band band-warm" id="follow">
       <div className="wrap">
@@ -104,7 +107,7 @@ export default function FollowShowcase({ videos }: { videos: ShowcaseVideo[] }) 
           </a>
         }
       >
-        <InstagramMock />
+        <InstagramMock images={igImages} />
       </ContainerScroll>
     </section>
   );

@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
 import Image from "next/image";
 import AdSlot from "@/components/AdSlot";
@@ -29,9 +31,26 @@ const wins = [
   "New videos every week",
 ];
 
+// Real Instagram post screenshots dropped into /public/instagram replace the
+// placeholder photos in the Instagram preview automatically.
+function getInstagramImages(): string[] {
+  try {
+    const dir = path.join(process.cwd(), "public", "instagram");
+    return fs
+      .readdirSync(dir)
+      .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
+      .sort()
+      .slice(0, 9)
+      .map((f) => `/instagram/${f}`);
+  } catch {
+    return [];
+  }
+}
+
 export default async function HomePage() {
   const [allPosts, latestVideos] = await Promise.all([getAllPosts(), getLatestVideos(6)]);
   const posts = allPosts.slice(0, 3);
+  const igImages = getInstagramImages();
 
   const orgJsonLd = {
     "@context": "https://schema.org",
@@ -163,7 +182,7 @@ export default async function HomePage() {
       </section>
 
       {/* FOLLOW — YouTube + Instagram scroll showcase */}
-      <FollowShowcase videos={latestVideos} />
+      <FollowShowcase videos={latestVideos} igImages={igImages} />
 
       {/* AD */}
       <div className="ad-band"><div className="wrap"><AdSlot variant="content" /></div></div>

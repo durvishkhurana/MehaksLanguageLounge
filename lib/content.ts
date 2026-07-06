@@ -6,7 +6,7 @@ export const courses = [
     tag: "Most popular",
     title: "Spoken English",
     body: "For adults and college students who understand English but freeze when it's time to speak. Daily speaking practice, real conversations, zero judgement.",
-    meta: "3 months · 3 days a week",
+    meta: "3 months · 5 days a week",
   },
   {
     tag: "Grades 6–12",
@@ -18,7 +18,7 @@ export const courses = [
     tag: "Exam prep",
     title: "IELTS & Interview English",
     body: "Band-focused IELTS coaching and interview prep for jobs and visas. Mock tests, feedback, and a clear plan to your target score.",
-    meta: "6–8 weeks · One-on-one",
+    meta: "One-on-one · Planned around each student's calibre",
   },
 ];
 
@@ -44,6 +44,19 @@ export const faqs = [
   { q: "What are the fees?", a: "Fees depend on the class and format. Book a free demo and we'll walk you through the options — no obligation." },
 ];
 
+// ---- YouTube curation ----
+// Pinned videos always show FIRST, in this order. `title` overrides the
+// YouTube title on the website (useful when the upload title is just a date).
+export const pinnedVideos: { id: string; title?: string }[] = [
+  // The grammar lesson uploaded 5 July 2026 (YouTube title is just the date).
+  { id: "UvoKtex2CIk", title: "Grammar Lesson — Learn English with Mehak" },
+];
+
+// After pinned videos, videos whose titles contain these words (in order)
+// come next; everything else follows, newest first.
+export const videoPriority: string[] = ["gen z"];
+
+// Fallback list, used only if YouTube can't be reached.
 // YouTube video IDs: the part after "v=" in a video's URL.
 export const videos = [
   { id: "dQw4w9WgXcQ", tag: "Spoken English", title: "10 phrases to sound instantly fluent", desc: "Simple swaps that make everyday English sound natural." },
